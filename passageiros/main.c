@@ -16,6 +16,27 @@ typedef struct {
     char senha[20];
 } Administrador;
 
+void cadastrarPassageiro(Passageiro *passageiro, int *codigoAtual) {
+    passageiro->codigo = (*codigoAtual)++; // Incrementa o código automaticamente
+
+    printf("Cadastro de Passageiro\n");
+    printf("Informe o nome do passageiro: ");
+    scanf(" %[^\n]", passageiro->nome);
+
+    printf("Informe o endereço do passageiro: ");
+    scanf(" %[^\n]", passageiro->endereco);
+
+    printf("Informe o telefone do passageiro: ");
+    scanf(" %[^\n]", passageiro->telefone);
+
+    printf("O passageiro participa do programa de fidelidade? (1-Sim, 0-Não): ");
+    scanf("%d", &passageiro->fidelidade);
+
+    passageiro->pontosFidelidade = 0; // Inicializa com zero pontos de fidelidade
+
+    printf("Passageiro cadastrado com sucesso! Código do passageiro: %d\n", passageiro->codigo);
+}
+
 int main()
 {
     printf("Hello world!\n");
