@@ -11,6 +11,11 @@ typedef struct {
     int pontosFidelidade;
 } Passageiro;
 
+typedef struct {
+    char username[20];
+    char senha[20];
+} Administrador;
+
 int main()
 {
     printf("Hello world!\n");
