@@ -23,7 +23,7 @@ void cadastrarPassageiro(Passageiro *passageiro, int *codigoAtual) {
     printf("Informe o nome do passageiro: ");
     scanf(" %[^\n]", passageiro->nome);
 
-    printf("Informe o endereço do passageiro: ");
+    printf("Informe o endereco do passageiro: ");
     scanf(" %[^\n]", passageiro->endereco);
 
     printf("Informe o telefone do passageiro: ");
@@ -34,7 +34,7 @@ void cadastrarPassageiro(Passageiro *passageiro, int *codigoAtual) {
 
     passageiro->pontosFidelidade = 0; // Inicializa com zero pontos de fidelidade
 
-    printf("Passageiro cadastrado com sucesso! Código do passageiro: %d\n", passageiro->codigo);
+    printf("Passageiro cadastrado com sucesso! Codigo do passageiro: %d\n", passageiro->codigo);
 }
 
 int main()
