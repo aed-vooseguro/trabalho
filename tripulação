@@ -1,0 +1,81 @@
+
+typedef struct{      //Criei uma struct para armazenar código, nome, telefone e cargo
+   int codigo;
+   char nome[20];
+   char telefone[15];
+   char cargo[10];
+}tripulacao;        // Usei typedef para renomear a strcut
+
+int codigo_existente (int codigos[], int quantidade, int codigo){  // Função para verificar se o código repete
+    for (int i = 0; i < quantidade; i++){    // Loop para passar em todos os codigos já cadastrados
+        if (codigos[i] == codigo){           // Se algum codigo ja cadastrado for igual a um codigo atual
+            return 1;                        // retorna 1 se True
+        }
+        else{
+            return 0;                       // retorna 0 se False
+        }
+    }
+
+}
+
+void cadastro_tripulacao(int codigo, char nome, char telefone, char cargo){
+
+    tripulacao t[50];
+    int codigos[50];
+    int i = 0, quantidade = 0;
+
+    do{
+
+    printf("Digite o codigo da pessoa %d: ", i + 1);
+    scanf("%d", &t[i].codigo);
+    getchar();
+
+    if (codigo_existente(codigos, quantidade, t[i].codigo)){
+        printf("Esse codigo ja existe. Tente novamente.\n");
+        continue;
+    }
+
+    printf("Digite o nome da pessoa %d: ", i + 1);
+    fgets(t[i].nome, 20, stdin);
+
+    t[i].nome[strcspn(t[i].nome, "\n")] = '\0';
+
+    if (strcmp(t[i].nome, "SAIR") == 0) {
+            break;
+        }
+
+    printf("Digite o telefone da pessoa %d: ", i + 1);
+    fgets(t[i].telefone, 15, stdin);
+
+    t[i].telefone[strcspn(t[i].telefone, "\n")] = '\0';
+
+    if (strcmp(t[i].telefone, "SAIR") == 0) {
+            break;
+        }
+
+    printf("Digite o cargo da pessoa %d: ", i + 1);
+    fgets(t[i].cargo, 10, stdin);
+    fflush(stdin);
+
+    t[i].cargo[strcspn(t[i].cargo, "\n")] = '\0';
+
+    if (strcmp(t[i].cargo, "SAIR") == 0) {
+            break;
+        }
+
+    codigos[quantidade] = t[i].codigo;
+    quantidade++;
+    i++;
+
+    }while(t[i - 1].codigo > 0);
+
+}
+
+int main(){
+
+    int codigo;
+    char nome[20], telefone[15], cargo[10];
+
+    cadastro_tripulacao(codigo, nome, telefone, cargo);
+
+}
