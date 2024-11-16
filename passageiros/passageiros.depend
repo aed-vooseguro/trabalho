@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1731779570 source:c:\users\caiot\onedrive\documentos\engenharia de software\aed\trabalho-vooseguro\trabalho\passageiros\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
