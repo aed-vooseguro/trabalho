@@ -77,6 +77,16 @@ int verificarUsuario(int *codigoUsuario) {
     }
 }
 
+void atualizarPontosFidelidade(Passageiro *passageiro) {
+    if (passageiro->fidelidade == 1) {
+        passageiro->pontosFidelidade += 10;
+        printf("Pontos de fidelidade atualizados. Total de pontos: %d\n", passageiro->pontosFidelidade);
+    } else {
+        printf("Passageiro não participa do programa de fidelidade.\n");
+    }
+}
+
+
 
 int main()
 {
