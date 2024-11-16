@@ -37,6 +37,47 @@ void cadastrarPassageiro(Passageiro *passageiro, int *codigoAtual) {
     printf("Passageiro cadastrado com sucesso! Codigo do passageiro: %d\n", passageiro->codigo);
 }
 
+int verificarUsuario(int *codigoUsuario) {
+    int tipoUsuario;
+    printf("Escolha o tipo de usuário:\n1. Administrador\n2. Passageiro\n");
+    printf("Opção: ");
+    scanf("%d", &tipoUsuario);
+
+    if (tipoUsuario == 1) {
+        char username[20], senha[20];
+        printf("Digite o nome de usuário do administrador: ");
+        scanf("%s", username);
+        printf("Digite a senha: ");
+        scanf("%s", senha);
+
+        // Verifica o username e a senha com dados armazenados
+        if (strcmp(username, "admin") == 0 && strcmp(senha, "1234") == 0) {
+            printf("Login de administrador bem-sucedido!\n");
+            return 1;
+        } else {
+            printf("Usuário ou senha incorretos!\n");
+            return -1;
+        }
+    } else if (tipoUsuario == 2) {
+        printf("Você possui cadastro? (1-Sim, 0-Não): ");
+        int possuiCadastro;
+        scanf("%d", &possuiCadastro);
+
+        if (possuiCadastro) {
+            printf("Informe o código do passageiro: ");
+            scanf("%d", codigoUsuario);
+            return 2;
+        } else {
+            *codigoUsuario = -1; // Código -1 indica novo cadastro
+            return 0;
+        }
+    } else {
+        printf("Opção invalida!\n");
+        return -1;
+    }
+}
+
+
 int main()
 {
     printf("Hello world!\n");
