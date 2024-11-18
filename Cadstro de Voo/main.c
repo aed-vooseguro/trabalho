@@ -24,11 +24,29 @@ typedef struct{
    int codigo_copiloto[6];
    int codigo_comissario[6];
    float tarifa[6];
-}voo;
+}Voo;
 
 void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destino, int codigo_aviao, int codigo_piloto, int codigo_copiloto, int codigo_comissario, float tarifa){
 
+     Voo v;
+     int qtd_piloto = 0, qtd_copiloto = 0, i = 0;
 
+     printf("Cadastro de Voo.\n");
+
+     do{
+
+     printf("Digite o Codigo do Aviao %d: ", i + 1);
+     scanf("%d", &v.codigo_aviao);
+
+     i++;
+
+     }while(1);
+
+}
+
+void Data (char data){
+
+     int dia, mes, ano;
 }
 
 int main()
