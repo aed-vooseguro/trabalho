@@ -52,7 +52,7 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      printf("Digite o Codigo do Aviao %d: ", i + 1);
      scanf("%d", &v.codigo_aviao);
 
-     printf("Digite o Codigo de Piloto %d", i + 1);
+     printf("Digite o Codigo do Piloto %d", i + 1);
      printf("\nCaso nao tenha Piloto, digite -1: ");
      scanf("%d", &v.codigo_piloto);
 
@@ -60,7 +60,7 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
         qtd_piloto++;
      }
 
-     printf("Digite o Codigo de Copiloto %d", i + 1);
+     printf("Digite o Codigo do Copiloto %d", i + 1);
      printf("\nCaso nao tenha Copiloto, digite -1: ");
      scanf("%d", &v.codigo_copiloto);
 
@@ -75,6 +75,11 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
         printf("Status: Voo %d Inativo\n", i + 1);
      }
 
+     printf("Digite o Codigo do Comissario %d: ", i + 1);
+     scanf("%d", &v.codigo_comissario);
+
+     printf("Digite o valor da tarifa do Voo %d: ", i + 1);
+     scanf("%f", v.tarifa);
 
      i++;
 
