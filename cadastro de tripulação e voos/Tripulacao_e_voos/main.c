@@ -66,3 +66,31 @@ int main() {
 
     return 0;
 }
+
+int cadastrarTripulacao() {
+    Tripulacao trip;
+    FILE *arquivo = fopen("tripulacao.dat", "ab");
+
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para cadastro de tripulação.\n");
+        return 1;
+    }
+
+    printf("\n===== Cadastro de Tripulação =====\n");
+
+    printf("Código (apenas números): ");
+    if (scanf("%d", &trip.codigo) != 1) {
+        printf("Erro: Digite um número válido.\n");
+        while (getchar() != '\n'); // Limpa o buffer
+        fclose(arquivo);
+        return 1;
+    }
+
+    printf("Nome: ");
+    getchar(); // Limpa o '\n' deixado pelo scanf
+    fgets(trip.nome, sizeof(trip.nome), stdin);
+    trip.nome[strcspn(trip.nome, "\n")] = '\0'; // Remove o '\n'
+
+    printf("Telefone: ");
+    fgets(trip.telefone, sizeof(trip.telefone), stdin);
+    trip.telefone[strcspn(trip.telefone, "\n")] = '\0';
