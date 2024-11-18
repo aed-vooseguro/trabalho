@@ -38,6 +38,8 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      printf("Digite o Codigo do Aviao %d: ", i + 1);
      scanf("%d", &v.codigo_aviao);
 
+     Data(data);
+
      i++;
 
      }while(1);
@@ -47,7 +49,46 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
 void Data (char data){
 
      int dia, mes, ano;
+
+     printf("\nInformacao sobre a data.\n");
+
+     do{
+     printf("Digite o dia: ");
+     scanf("%d", &dia);
+     if (dia < 0 || dia > 31){
+        printf("Dia Invalido. Digite novamente.\n");
+        continue;
+     }
+     }while(dia < 0 || dia > 31);
+
+     do{
+     printf("Digite o mes: ");
+     scanf("%d", &mes);
+     if (mes < 0 || mes > 12){
+        printf("Mes Invalido. Digite novamente.\n");
+        continue;
+     }
+     }while(mes < 0 || mes > 12);
+
+     do{
+     printf("Digite o ano: ");
+     scanf("%d", &ano);
+     if (ano != 2024){
+        printf("Ano Invalido. Digite novamente.\n");
+        continue;
+     }
+     }while(ano != 2024);
+
+     printf("A data eh %d/%d/%d\n", dia, mes, ano);
 }
+
+void Hora (char hora){
+
+     int hora, int minuto;
+
+     printf("Informacao sore a hora");
+}
+
 
 int main()
 {
