@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1731953297 source:c:\users\natha\onedrive\documentos\github\trabalho\cadastro de tripulação\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
