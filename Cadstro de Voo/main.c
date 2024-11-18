@@ -18,7 +18,7 @@ typedef struct{
    char data[10];
    char hora[10];
    char origem[20];
-   char detino[20];
+   char destino[20];
    int codigo_aviao[6];
    int codigo_piloto[6];
    int codigo_copiloto[6];
@@ -31,7 +31,7 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      Voo v;
      int qtd_piloto = 0, qtd_copiloto = 0, i = 0;
 
-     printf("Cadastro de Voo.\n");
+     printf("\nCadastro de Voo %d.\n", i + 1);
 
      do{
 
@@ -40,6 +40,14 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
 
      Data(data);
      Hora(hora);
+
+     printf("\nDigite a origem: ");
+     fgets(v.origem, 20, stdin);
+     fflush(stdin);
+
+     printf("Digite o destino: ");
+     fgets(v.destino, 20, stdin);
+     fflush(stdin);
 
      i++;
 
@@ -101,6 +109,7 @@ void Hora (char hora){
      do{
         printf("Digite os minutos: ");
         scanf("%d", &minuto);
+        getchar();
         if (minuto < 0 || minuto > 60){
             printf("Hora Invalida. Digite Novamente");
             continue;
