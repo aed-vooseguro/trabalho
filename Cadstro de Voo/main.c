@@ -39,6 +39,7 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      scanf("%d", &v.codigo_aviao);
 
      Data(data);
+     Hora(hora);
 
      i++;
 
@@ -84,9 +85,29 @@ void Data (char data){
 
 void Hora (char hora){
 
-     int hora, int minuto;
+     int time, minuto;
 
-     printf("Informacao sore a hora");
+     printf("\nInformacao sore a hora\n");
+
+     do{
+        printf("Digite a hora: ");
+        scanf("%d", &time);
+        if (time < 0 || time > 60){
+            printf("Hora Invalida. Digite Novamente");
+            continue;
+        }
+     }while(time < 0 || time > 60);
+
+     do{
+        printf("Digite os minutos: ");
+        scanf("%d", &minuto);
+        if (minuto < 0 || minuto > 60){
+            printf("Hora Invalida. Digite Novamente");
+            continue;
+        }
+     }while(minuto < 0 || minuto > 60);
+
+     printf("Sao %d:%d\n", time, minuto);
 }
 
 
