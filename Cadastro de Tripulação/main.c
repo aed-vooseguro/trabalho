@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct{
     int codigo;
@@ -11,7 +12,8 @@ typedef struct{
 void cadastro_tripulacao(int codigo, char nome, char telefone, char cargo){
 
      tripulacao t[50];
-     int i = 0;
+     int codigos[50];
+     int i = 0, j = 0;
 
      do{
 
@@ -21,6 +23,11 @@ void cadastro_tripulacao(int codigo, char nome, char telefone, char cargo){
 
         if (t[i].codigo < 0){
             printf("Codigos negativos sao invalidos. Digite novamente.\n");
+            continue;
+        }
+
+        if (codigo_existente(codigos, j, t[i].codigo)){
+            printf("Esse codigo ja existe. Digite novamente.\n");
             continue;
         }
 
@@ -36,12 +43,23 @@ void cadastro_tripulacao(int codigo, char nome, char telefone, char cargo){
         fgets(t[i].telefone, 20, stdin);
         fflush(stdin);
 
-
+        codigos[j] = t[i].codigo;
+        j++;
         i++;
 
      }while(1);
+}
 
+int codigo_existente (int codigos[], int j, int codigo){
 
+    for (int i = 0; i < j; i++){
+        if (codigos[i] == codigo){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
 }
 
 int main()
