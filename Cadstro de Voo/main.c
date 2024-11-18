@@ -31,23 +31,50 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      Voo v;
      int qtd_piloto = 0, qtd_copiloto = 0, i = 0;
 
-     printf("\nCadastro de Voo %d.\n", i + 1);
-
      do{
 
-     printf("Digite o Codigo do Aviao %d: ", i + 1);
-     scanf("%d", &v.codigo_aviao);
+     printf("Cadastro de Voo %d.\n", i + 1);
+
+     printf("Digite o Codigo do Voo %d: ", i + 1);
+     scanf("%d", &v.codigo_voo);
 
      Data(data);
      Hora(hora);
 
-     printf("\nDigite a origem: ");
+     printf("\nDigite a Origem: ");
      fgets(v.origem, 20, stdin);
      fflush(stdin);
 
-     printf("Digite o destino: ");
+     printf("Digite o Destino: ");
      fgets(v.destino, 20, stdin);
      fflush(stdin);
+
+     printf("Digite o Codigo do Aviao %d: ", i + 1);
+     scanf("%d", &v.codigo_aviao);
+
+     printf("Digite o Codigo de Piloto %d", i + 1);
+     printf("\nCaso nao tenha Piloto, digite -1: ");
+     scanf("%d", &v.codigo_piloto);
+
+     if (v.codigo_piloto > 0){
+        qtd_piloto++;
+     }
+
+     printf("Digite o Codigo de Copiloto %d", i + 1);
+     printf("\nCaso nao tenha Copiloto, digite -1: ");
+     scanf("%d", &v.codigo_copiloto);
+
+     if (v.codigo_copiloto > 0){
+        qtd_copiloto++;
+     }
+
+     if (qtd_piloto > 0 && qtd_copiloto > 0){
+        printf("Status: Voo %d Ativo\n", i + 1);
+     }
+     else{
+        printf("Status: Voo %d Inativo\n", i + 1);
+     }
+
 
      i++;
 
