@@ -211,3 +211,26 @@ int liberarReserva() {
     fclose(arquivo);
     return 0;
 }
+
+// validar entradas
+
+int validarEntradaNumerica(const char *mensagem) {
+    char entrada[100];
+    int valido = 0;
+
+    while (!valido) {
+        printf("%s", mensagem);
+        scanf("%s", entrada);
+
+        valido = 1;
+        for (int i = 0; i < strlen(entrada); i++) {
+            if (!isdigit(entrada[i])) {
+                valido = 0;
+                printf("Erro: Digite apenas números.\n");
+                break;
+            }
+        }
+    }
+
+    return atoi(entrada);
+}
