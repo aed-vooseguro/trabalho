@@ -142,3 +142,72 @@ int reservarAssento() {
     fclose(reservas);
     return 0;
 }
+
+ //Aqui é para liberar a reserva do assento
+
+int liberarReserva() {
+    FILE *arquivo = fopen("assentos.dat", "rb+");
+    FILE *reservas = fopen("reservas.dat", "rb+");
+    if (!arquivo || !reservas) {
+        printf("Erro ao abrir arquivos necessários.\n");
+        return 1;
+    }
+
+    Reserva reserva;
+    Assento assento;
+    int encontrado = 0, codigoVoo, numeroAssento;
+
+    printf("Digite o código do voo: ");
+    codigoVoo = validarEntradaNumerica("");
+
+    printf("Digite o número do assento: ");
+    numeroAssento = validarEntradaNumerica("");
+
+    while (fread(&assento, sizeof(Assento), 1, arquivo)) {
+        if (assento.codigoVoo == codigoVoo && assento.numero == numeroAssento) {
+            encontrado = 1;
+
+            if (assento.status == 'L') {
+                printf("Erro: Assento já está livre.\n");
+                fclose(arquivo);
+                fclose(reservas);
+                return 1;
+            }
+
+            assento.status = 'L';
+            fseek(arquivo, -sizeof(Assento), SEEK_CUR);
+            fwrite(&assento, sizeof(Assento), 1, arquivo);
+
+            // Remover a reserva
+            FILE *temp = fopen("temp.dat", "wb");
+            if (!temp) {
+                printf("Erro ao criar arquivo temporário.\n");
+                fclose(arquivo);
+                fclose(reservas);
+                return 1;
+            }
+
+            while (fread(&reserva, sizeof(Reserva), 1, reservas)) {
+                if (!(reserva.codigoVoo == codigoVoo && reserva.numeroAssento == numeroAssento)) {
+                    fwrite(&reserva, sizeof(Reserva), 1, temp);
+                }
+            }
+
+            fclose(reservas);
+            fclose(temp);
+
+            remove("reservas.dat");
+            rename("temp.dat", "reservas.dat");
+
+            printf("Reserva liberada com sucesso!\n");
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("Erro: Assento não encontrado para este voo.\n");
+    }
+
+    fclose(arquivo);
+    return 0;
+}
