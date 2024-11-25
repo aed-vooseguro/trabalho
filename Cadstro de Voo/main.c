@@ -34,7 +34,7 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
 
      do{
 
-     printf("Cadastro de Voo %d - aperte 0 (para codigos) ou SAIR para sair do sistema\n", i + 1);
+     printf("Cadastro de Voo %d - digite 0 (para codigos) ou SAIR para sair do sistema\n", i + 1);
 
      printf("Digite o Codigo do Voo %d: ", i + 1);
      scanf("%d", &v.codigo_voo);

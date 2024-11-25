@@ -18,7 +18,7 @@ void cadastro_tripulacao(int codigo, char nome, char telefone, char cargo){
 
      do{
 
-        printf("Cadastro da Tripulacao %d.\n", i + 1);
+        printf("Cadastro da Tripulacao %d. - Digite SAIR para sair do sistema\n", i + 1);
 
         printf("Digite o codigo da pessoa %d: ", i + 1);
         scanf("%d", &t[i].codigo);
