@@ -3,10 +3,17 @@
 #include <string.h>
 #include <ctype.h>
 
-#define MAX_ASSENTOS 100
 
 
-// structs para usar
+// Estruturas
+typedef struct {
+    int codigoVoo;
+    char origem[50];
+    char destino[50];
+    char status; // 'A' para ativo, 'I' para inativo
+    float tarifa;
+} Voo;
+
 typedef struct {
     int numero;
     int codigoVoo;
@@ -25,6 +32,7 @@ int reservarAssento();
 int liberarReserva();
 void exibirAssentos(int codigoVoo);
 int validarEntradaNumerica(const char *mensagem);
+int vooValido(int codigoVoo);
 
 // Função principal
 int main() {
@@ -35,7 +43,8 @@ int main() {
         printf("1. Cadastrar Assentos\n");
         printf("2. Reservar Assento\n");
         printf("3. Liberar Reserva\n");
-        printf("4. Sair\n");
+        printf("4. Exibir Assentos\n");
+        printf("5. Sair\n");
         printf("Escolha uma opção: ");
         opcao = validarEntradaNumerica("");
 
@@ -50,18 +59,43 @@ int main() {
                 liberarReserva();
                 break;
             case 4:
+                printf("Digite o código do voo: ");
+                int codigo = validarEntradaNumerica("");
+                exibirAssentos(codigo);
+                break;
+            case 5:
                 printf("Encerrando o sistema...\n");
                 break;
             default:
                 printf("Opção inválida. Tente novamente.\n");
         }
-    } while (opcao != 4);
+    } while (opcao != 5);
 
     return 0;
 }
 
-// Função cadastrar assento
+// Função para validar se o voo é válido
+int vooValido(int codigoVoo) {
+    FILE *arquivo = fopen("voos.dat", "rb");
+    Voo voo;
 
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo de voos.\n");
+        return 0;
+    }
+
+    while (fread(&voo, sizeof(Voo), 1, arquivo)) {
+        if (voo.codigoVoo == codigoVoo && voo.status == 'A') {
+            fclose(arquivo);
+            return 1;
+        }
+    }
+
+    fclose(arquivo);
+    return 0;
+}
+
+// Função para cadastrar assentos
 int cadastrarAssentos() {
     FILE *arquivo = fopen("assentos.dat", "ab");
     if (!arquivo) {
@@ -75,14 +109,20 @@ int cadastrarAssentos() {
     printf("Digite o código do voo: ");
     assento.codigoVoo = validarEntradaNumerica("");
 
+    if (!vooValido(assento.codigoVoo)) {
+        printf("Erro: Código de voo inválido ou inativo.\n");
+        fclose(arquivo);
+        return 1;
+    }
+
     printf("Quantos assentos deseja cadastrar? ");
     total = validarEntradaNumerica("");
 
     for (int i = 0; i < total; i++) {
         printf("Digite o número do assento: ");
         assento.numero = validarEntradaNumerica("");
-
         assento.status = 'L'; // Todos os assentos começam livres
+
         fwrite(&assento, sizeof(Assento), 1, arquivo);
         printf("Assento %d cadastrado com sucesso!\n", assento.numero);
     }
@@ -91,7 +131,7 @@ int cadastrarAssentos() {
     return 0;
 }
 
-//Aqui é para reservar o assento
+// Função para reservar um assento
 int reservarAssento() {
     FILE *arquivo = fopen("assentos.dat", "rb+");
     FILE *reservas = fopen("reservas.dat", "ab");
@@ -106,6 +146,13 @@ int reservarAssento() {
 
     printf("Digite o código do voo: ");
     reserva.codigoVoo = validarEntradaNumerica("");
+
+    if (!vooValido(reserva.codigoVoo)) {
+        printf("Erro: Código de voo inválido ou inativo.\n");
+        fclose(arquivo);
+        fclose(reservas);
+        return 1;
+    }
 
     printf("Digite o número do assento: ");
     reserva.numeroAssento = validarEntradaNumerica("");
@@ -143,8 +190,7 @@ int reservarAssento() {
     return 0;
 }
 
- //Aqui é para liberar a reserva do assento
-
+// Função para liberar uma reserva
 int liberarReserva() {
     FILE *arquivo = fopen("assentos.dat", "rb+");
     FILE *reservas = fopen("reservas.dat", "rb+");
@@ -159,6 +205,13 @@ int liberarReserva() {
 
     printf("Digite o código do voo: ");
     codigoVoo = validarEntradaNumerica("");
+
+    if (!vooValido(codigoVoo)) {
+        printf("Erro: Código de voo inválido ou inativo.\n");
+        fclose(arquivo);
+        fclose(reservas);
+        return 1;
+    }
 
     printf("Digite o número do assento: ");
     numeroAssento = validarEntradaNumerica("");
@@ -178,7 +231,7 @@ int liberarReserva() {
             fseek(arquivo, -sizeof(Assento), SEEK_CUR);
             fwrite(&assento, sizeof(Assento), 1, arquivo);
 
-            // Remover a reserva
+            // Atualizar as reservas
             FILE *temp = fopen("temp.dat", "wb");
             if (!temp) {
                 printf("Erro ao criar arquivo temporário.\n");
@@ -212,8 +265,29 @@ int liberarReserva() {
     return 0;
 }
 
-// validar entradas
+// Função para exibir assentos de um voo
+void exibirAssentos(int codigoVoo) {
+    FILE *arquivo = fopen("assentos.dat", "rb");
+    Assento assento;
 
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo de assentos.\n");
+        return;
+    }
+
+    printf("Assentos do voo %d:\n", codigoVoo);
+    printf("Número\tStatus\n");
+
+    while (fread(&assento, sizeof(Assento), 1, arquivo)) {
+        if (assento.codigoVoo == codigoVoo) {
+            printf("%d\t%c\n", assento.numero, assento.status);
+        }
+    }
+
+    fclose(arquivo);
+}
+
+// Função para validar entradas numéricas
 int validarEntradaNumerica(const char *mensagem) {
     char entrada[100];
     int valido = 0;
