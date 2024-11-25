@@ -1,7 +1,0 @@
-# depslib dependency file v1.0
-1731926735 source:c:\users\lucas alexandre\desktop\cadastro de tripulação e voos\tripulacao_e_voos\main.c
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<ctype.h>
-
