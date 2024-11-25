@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "header.h"
+
 
 typedef struct {
     int codigo;
     char nome[50];
     char endereco[100];
     char telefone[15];
-    int fidelidade; // 1 para sim, 0 para não
+    int fidelidade; // 1 para sim, 0 para nï¿½o
     int pontosFidelidade;
 } Passageiro;
 
@@ -17,7 +19,7 @@ typedef struct {
 } Administrador;
 
 void cadastrarPassageiro(Passageiro *passageiro, int *codigoAtual) {
-    passageiro->codigo = (*codigoAtual)++; // Incrementa o código automaticamente
+    passageiro->codigo = (*codigoAtual)++; // Incrementa o cï¿½digo automaticamente
 
     printf("Cadastro de Passageiro\n");
     printf("Informe o nome do passageiro: ");
@@ -29,7 +31,7 @@ void cadastrarPassageiro(Passageiro *passageiro, int *codigoAtual) {
     printf("Informe o telefone do passageiro: ");
     scanf(" %[^\n]", passageiro->telefone);
 
-    printf("O passageiro participa do programa de fidelidade? (1-Sim, 0-Não): ");
+    printf("O passageiro participa do programa de fidelidade? (1-Sim, 0-Nï¿½o): ");
     scanf("%d", &passageiro->fidelidade);
 
     passageiro->pontosFidelidade = 0; // Inicializa com zero pontos de fidelidade
@@ -68,7 +70,7 @@ int verificarUsuario(int *codigoUsuario) {
             scanf("%d", codigoUsuario);
             return 2;
         } else {
-            *codigoUsuario = -1; // Código -1 indica novo cadastro
+            *codigoUsuario = -1; // Cï¿½digo -1 indica novo cadastro
             return 0;
         }
     } else {
@@ -98,7 +100,7 @@ void buscarEEditarPassageiro(Passageiro *passageiros, int totalPassageiros, int 
             scanf("%d", &editar);
 
             if (editar == 1) {
-                printf("Novo endereço: ");
+                printf("Novo endereï¿½o: ");
                 scanf(" %[^\n]", passageiros[i].endereco);
                 printf("Novo telefone: ");
                 scanf(" %[^\n]", passageiros[i].telefone);
@@ -110,57 +112,57 @@ void buscarEEditarPassageiro(Passageiro *passageiros, int totalPassageiros, int 
     printf("Passageiro nao encontrado.\n");
 }
 
-int main() {
-    Passageiro passageiros[100]; // Supondo um limite de 100 passageiros
-    int totalPassageiros = 0;
-    int opcao, codigoUsuario;
-    int codigoAtual = 1;
+// int main() {
+//     Passageiro passageiros[100]; // Supondo um limite de 100 passageiros
+//     int totalPassageiros = 0;
+//     int opcao, codigoUsuario;
+//     int codigoAtual = 1;
 
-    while (1) {
-        int tipoUsuario = verificarUsuario(&codigoUsuario);
+//     while (1) {
+//         int tipoUsuario = verificarUsuario(&codigoUsuario);
 
-        if (tipoUsuario == 1) {
-            printf("Menu do Administrador:\n");
-            printf("1. Cadastrar Passageiro\n2. Sair\n");
-            printf("Escolha uma opcao: ");
-            scanf("%d", &opcao);
+//         if (tipoUsuario == 1) {
+//             printf("Menu do Administrador:\n");
+//             printf("1. Cadastrar Passageiro\n2. Sair\n");
+//             printf("Escolha uma opcao: ");
+//             scanf("%d", &opcao);
 
-            if (opcao == 1) {
-                cadastrarPassageiro(&passageiros[totalPassageiros++], &codigoAtual);
-            } else if (opcao == 2) {
-                printf("Saindo...\n");
-                break;
-            } else {
-                printf("Opcao invalida!\n");
-            }
-        } else if (tipoUsuario == 2) {
-            printf("Menu do Passageiro:\n");
-            printf("1. Atualizar Pontos de Fidelidade\n2. Buscar e Editar Dados\n3. Sair\n");
-            printf("Escolha uma opcao: ");
-            scanf("%d", &opcao);
+//             if (opcao == 1) {
+//                 cadastrarPassageiro(&passageiros[totalPassageiros++], &codigoAtual);
+//             } else if (opcao == 2) {
+//                 printf("Saindo...\n");
+//                 break;
+//             } else {
+//                 printf("Opcao invalida!\n");
+//             }
+//         } else if (tipoUsuario == 2) {
+//             printf("Menu do Passageiro:\n");
+//             printf("1. Atualizar Pontos de Fidelidade\n2. Buscar e Editar Dados\n3. Sair\n");
+//             printf("Escolha uma opcao: ");
+//             scanf("%d", &opcao);
 
-            if (opcao == 1) {
-                for (int i = 0; i < totalPassageiros; i++) {
-                    if (passageiros[i].codigo == codigoUsuario) {
-                        atualizarPontosFidelidade(&passageiros[i]);
-                        break;
-                    }
-                }
-            } else if (opcao == 2) {
-                buscarEEditarPassageiro(passageiros, totalPassageiros, codigoUsuario);
-            } else if (opcao == 3) {
-                printf("Saindo...\n");
-                break;
-            } else {
-                printf("Opção invalida!\n");
-            }
-        } else if (tipoUsuario == 0) {
-            cadastrarPassageiro(&passageiros[totalPassageiros++], &codigoAtual);
-            printf("Bem-vindo! Voce agora pode acessar as funcionalidades do sistema.\n");
-        }
-    }
+//             if (opcao == 1) {
+//                 for (int i = 0; i < totalPassageiros; i++) {
+//                     if (passageiros[i].codigo == codigoUsuario) {
+//                         atualizarPontosFidelidade(&passageiros[i]);
+//                         break;
+//                     }
+//                 }
+//             } else if (opcao == 2) {
+//                 buscarEEditarPassageiro(passageiros, totalPassageiros, codigoUsuario);
+//             } else if (opcao == 3) {
+//                 printf("Saindo...\n");
+//                 break;
+//             } else {
+//                 printf("Opï¿½ï¿½o invalida!\n");
+//             }
+//         } else if (tipoUsuario == 0) {
+//             cadastrarPassageiro(&passageiros[totalPassageiros++], &codigoAtual);
+//             printf("Bem-vindo! Voce agora pode acessar as funcionalidades do sistema.\n");
+//         }
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
 
 

@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "header.h"
+
 
 /*
-VOO: código do voo, data, hora, origem, destino, código do avião, código do piloto,
-código do copiloto, código do comissário, status (ativo/inativo), tarifa.
+VOO: cï¿½digo do voo, data, hora, origem, destino, cï¿½digo do aviï¿½o, cï¿½digo do piloto,
+cï¿½digo do copiloto, cï¿½digo do comissï¿½rio, status (ativo/inativo), tarifa.
 
 Cadastro de Voo:
-o Deve ser possível cadastrar informações sobre data, hora, origem, destino, tarifa,
-tripulação e o avião.
-o Deve verificar a presença de ao menos um piloto e um copiloto para que o voo
+o Deve ser possï¿½vel cadastrar informaï¿½ï¿½es sobre data, hora, origem, destino, tarifa,
+tripulaï¿½ï¿½o e o aviï¿½o.
+o Deve verificar a presenï¿½a de ao menos um piloto e um copiloto para que o voo
 seja marcado como ativo.
 
 */
@@ -196,11 +198,11 @@ void Hora (char hora){
 }
 
 
-int main()
-{
-    int codigo_voo, codigo_aviao, codigo_piloto, codigo_copiloto, codigo_comissario;
-    float tarifa;
-    char data, hora, origem, destino;
+// int main()
+// {
+//     int codigo_voo, codigo_aviao, codigo_piloto, codigo_copiloto, codigo_comissario;
+//     float tarifa;
+//     char data, hora, origem, destino;
 
-    cadastro_voo(codigo_voo, data, hora, origem, destino, codigo_aviao, codigo_piloto, codigo_copiloto, codigo_comissario, tarifa);
-}
+//     cadastro_voo(codigo_voo, data, hora, origem, destino, codigo_aviao, codigo_piloto, codigo_copiloto, codigo_comissario, tarifa);
+// }

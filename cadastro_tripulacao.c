@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "header.h"
+
 
 typedef struct{
     int codigo;
@@ -84,10 +86,10 @@ int codigo_existente (int codigos[], int j, int codigo){
     }
 }
 
-int main()
-{
-    int codigo;
-    char nome[20], telefone[15], cargo[10];
+// int main()
+// {
+//     int codigo;
+//     char nome[20], telefone[15], cargo[10];
 
-    cadastro_tripulacao(codigo, nome, telefone, cargo);
-}
+//     cadastro_tripulacao(codigo, nome, telefone, cargo);
+// }

@@ -1,96 +1,97 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h> // Para usar isdigit()
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <ctype.h> // Para usar isdigit()
+// #include "header.h"
 
-// Estruturas
-typedef struct {
-    int codigo;
-    char nome[100];
-    char telefone[20];
-    char cargo[20];
-} Tripulacao;
+// // Estruturas
+// typedef struct {
+//     int codigo;
+//     char nome[100];
+//     char telefone[20];
+//     char cargo[20];
+// } Tripulacao;
 
-typedef struct {
-    int codigoVoo;
-    char data[12];
-    char hora[6];
-    char origem[50];
-    char destino[50];
-    int codigoAviao;
-    int codigoPiloto;
-    int codigoCopiloto;
-    float tarifa;
-    char status[20];
-} Voo;
+// typedef struct {
+//     int codigoVoo;
+//     char data[12];
+//     char hora[6];
+//     char origem[50];
+//     char destino[50];
+//     int codigoAviao;
+//     int codigoPiloto;
+//     int codigoCopiloto;
+//     float tarifa;
+//     char status[20];
+// } Voo;
 
-// Funções
-int cadastrarTripulacao();
-int cadastrarVoo();
-int pesquisarTripulacao();
-int validarTripulacao(int piloto, int copiloto);
+// // Funï¿½ï¿½es
+// int cadastrarTripulacao();
+// int cadastrarVoo();
+// int pesquisarTripulacao();
+// int validarTripulacao(int piloto, int copiloto);
 
-int main() {
-    int opcao;
+// int main() {
+//     int opcao;
 
-    do {
-        printf("\n===== Sistema de Gerenciamento de Voos =====\n");
-        printf("1. Cadastrar Tripulação\n");
-        printf("2. Cadastrar Voo\n");
-        printf("3. Pesquisar Tripulação\n");
-        printf("0. Sair\n");
-        printf("Escolha uma opção: ");
-        if (scanf("%d", &opcao) != 1) { // Validação de entrada
-            printf("Erro: Digite apenas números.\n");
-            while (getchar() != '\n'); // Limpa o buffer
-            continue;
-        }
+//     do {
+//         printf("\n===== Sistema de Gerenciamento de Voos =====\n");
+//         printf("1. Cadastrar Tripulaï¿½ï¿½o\n");
+//         printf("2. Cadastrar Voo\n");
+//         printf("3. Pesquisar Tripulaï¿½ï¿½o\n");
+//         printf("0. Sair\n");
+//         printf("Escolha uma opï¿½ï¿½o: ");
+//         if (scanf("%d", &opcao) != 1) { // Validaï¿½ï¿½o de entrada
+//             printf("Erro: Digite apenas nï¿½meros.\n");
+//             while (getchar() != '\n'); // Limpa o buffer
+//             continue;
+//         }
 
-        switch (opcao) {
-            case 1:
-                cadastrarTripulacao();
-                break;
-            case 2:
-                cadastrarVoo();
-                break;
-            case 3:
-                pesquisarTripulacao();
-                break;
-            case 0:
-                printf("Saindo do sistema...\n");
-                break;
-            default:
-                printf("Opção inválida. Tente novamente.\n");
-        }
-    } while (opcao != 0);
+//         switch (opcao) {
+//             case 1:
+//                 cadastrarTripulacao();
+//                 break;
+//             case 2:
+//                 cadastrarVoo();
+//                 break;
+//             case 3:
+//                 pesquisarTripulacao();
+//                 break;
+//             case 0:
+//                 printf("Saindo do sistema...\n");
+//                 break;
+//             default:
+//                 printf("Opï¿½ï¿½o invï¿½lida. Tente novamente.\n");
+//         }
+//     } while (opcao != 0);
 
-    return 0;
-}
+//     return 0;
+// }
 
-int cadastrarTripulacao() {
-    Tripulacao trip;
-    FILE *arquivo = fopen("tripulacao.dat", "ab");
+// int cadastrarTripulacao() {
+//     Tripulacao trip;
+//     FILE *arquivo = fopen("tripulacao.dat", "ab");
 
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo para cadastro de tripulação.\n");
-        return 1;
-    }
+//     if (arquivo == NULL) {
+//         printf("Erro ao abrir o arquivo para cadastro de tripulaï¿½ï¿½o.\n");
+//         return 1;
+//     }
 
-    printf("\n===== Cadastro de Tripulação =====\n");
+//     printf("\n===== Cadastro de Tripulaï¿½ï¿½o =====\n");
 
-    printf("Código (apenas números): ");
-    if (scanf("%d", &trip.codigo) != 1) {
-        printf("Erro: Digite um número válido.\n");
-        while (getchar() != '\n'); // Limpa o buffer
-        fclose(arquivo);
-        return 1;
-    }
+//     printf("Cï¿½digo (apenas nï¿½meros): ");
+//     if (scanf("%d", &trip.codigo) != 1) {
+//         printf("Erro: Digite um nï¿½mero vï¿½lido.\n");
+//         while (getchar() != '\n'); // Limpa o buffer
+//         fclose(arquivo);
+//         return 1;
+//     }
 
-    printf("Nome: ");
-    getchar(); // Limpa o '\n' deixado pelo scanf
-    fgets(trip.nome, sizeof(trip.nome), stdin);
-    trip.nome[strcspn(trip.nome, "\n")] = '\0'; // Remove o '\n'
+//     printf("Nome: ");
+//     getchar(); // Limpa o '\n' deixado pelo scanf
+//     fgets(trip.nome, sizeof(trip.nome), stdin);
+//     trip.nome[strcspn(trip.nome, "\n")] = '\0'; // Remove o '\n'
 
-    printf("Telefone: ");
-    fgets(trip.telefone, sizeof(trip.telefone), stdin);
-    trip.telefone[strcspn(trip.telefone, "\n")] = '\0';
+//     printf("Telefone: ");
+//     fgets(trip.telefone, sizeof(trip.telefone), stdin);
+//     trip.telefone[strcspn(trip.telefone, "\n")] = '\0';
