@@ -3,24 +3,34 @@
 #include <string.h>
 #include "header.h"
 
+int codigo_existente (int codigos[], int j, int codigo){
 
-typedef struct{
-    int codigo;
-    char nome[20];
-    char telefone[20];
-    char cargo[10];
-}tripulacao;
+    for (int i = 0; i < j; i++){
+        if (codigos[i] == codigo){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+}
 
-void cadastro_tripulacao(int codigo, char nome, char telefone, char cargo){
+void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, const char *cargo){
 
      tripulacao t[50];
      int codigos[50];
      int i = 0, j = 0;
      char a[6];
+     int qtdTripulacao;
+
+    do{
+     printf("Digite a quantidade de tripulantes a serem cadastrados: ");
+     scanf("%d", &qtdTripulacao);
+    }while(qtdTripulacao <= 0);
 
      do{
 
-        printf("Cadastro da Tripulacao %d. - Digite SAIR para sair do sistema\n", i + 1);
+        printf("Cadastro da Tripulacao %d.\n", i + 1);
 
         printf("Digite o codigo da pessoa %d: ", i + 1);
         scanf("%d", &t[i].codigo);
@@ -41,10 +51,10 @@ void cadastro_tripulacao(int codigo, char nome, char telefone, char cargo){
 
         t[i].nome[strcspn(t[i].nome, "\n")] = '\0';
 
-        if (strcmp(t[i].nome, "SAIR") == 0){
-            printf("Voce saiu do sistema.");
-            break;
-        }
+        // if (strcmp(t[i].nome, "SAIR") == 0){
+        //     printf("Voce saiu do sistema.");
+        //     break;
+        // }
 
 
         printf("Digite o telefone da pessoa %d: ", i + 1);
@@ -52,44 +62,32 @@ void cadastro_tripulacao(int codigo, char nome, char telefone, char cargo){
 
         t[i].telefone[strcspn(t[i].telefone, "\n")] = '\0';
 
-        if (strcmp(t[i].telefone, "SAIR") == 0){
-            printf("Voce saiu do sistema.");
-            break;
-        }
+        // if (strcmp(t[i].telefone, "SAIR") == 0){
+        //     printf("Voce saiu do sistema.");
+        //     break;
+        // }
 
         printf("Digite o cargo da pessoa %d: (Piloto, Copiloto ou Comissario)", i + 1);
         fgets(t[i].cargo, 10, stdin);
 
         t[i].cargo[strcspn(t[i].cargo, "\n")] = '\0';
 
-        if (strcmp(t[i].cargo, "SAIR") == 0){
-            printf("Voce saiu do sistema.");
-            break;
-        }
+        // if (strcmp(t[i].cargo, "SAIR") == 0){
+        //     printf("Voce saiu do sistema.");
+        //     break;
+        // }
 
         codigos[j] = t[i].codigo;
         j++;
         i++;
 
-     }while(1);
+     }while(i < qtdTripulacao);
 }
 
-int codigo_existente (int codigos[], int j, int codigo){
+int cadastroTripulacaoMain()
+{
+    int codigo;
+    char nome[20], telefone[15], cargo[10];
 
-    for (int i = 0; i < j; i++){
-        if (codigos[i] == codigo){
-            return 1;
-        }
-        else{
-            return 0;
-        }
-    }
+    cadastro_tripulacao(codigo, nome, telefone, cargo);
 }
-
-// int main()
-// {
-//     int codigo;
-//     char nome[20], telefone[15], cargo[10];
-
-//     cadastro_tripulacao(codigo, nome, telefone, cargo);
-// }

@@ -109,13 +109,15 @@ int passageirosMain() {
 
         if (tipoUsuario == 1) {
             printf("Menu do Administrador:\n");
-            printf("1. Cadastrar Passageiro\n2. Sair\n");
+            printf("1. Cadastrar Passageiro\n2. Cadastrar tripulacao\n3. Sair\n");
             printf("Escolha uma opcao: ");
             scanf("%d", &opcao);
 
             if (opcao == 1) {
                 cadastrarPassageiro(&passageiros[totalPassageiros++], &codigoAtual);
             } else if (opcao == 2) {
+                cadastroTripulacaoMain();
+            } else if (opcao == 3) {
                 printf("Saindo...\n");
                 break;
             } else {
