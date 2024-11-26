@@ -28,6 +28,13 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
     char a[6];
     int qtdTripulacao;
 
+    FILE *arquivo = fopen("tripulacao.dat", "ab");
+    if (!arquivo)
+    {
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }
+
     do
     {
         printf("Digite a quantidade de tripulantes a serem cadastrados: ");
@@ -87,9 +94,12 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
 
         codigos[j] = t[i].codigo;
         j++;
+        fwrite(&t[i], sizeof(tripulacao), 1, arquivo);
         i++;
 
+
     } while (i < qtdTripulacao);
+    fclose(arquivo);
 }
 
 int cadastroTripulacaoMain()

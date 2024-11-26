@@ -29,7 +29,13 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
         scanf("%d", &qtdVoos);
     } while (qtdVoos <= 0);
 
+    FILE *arquivo = fopen("voos.dat", "ab");
+
      do{
+      if (!arquivo){
+         printf("Erro ao abrir o arquivo.\n");
+         return;
+      }
 
      printf("Cadastro de Voo %d\n", i + 1);
 
@@ -124,7 +130,11 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
 
      i++;
 
+       fwrite(&v, sizeof(Voo), 1, arquivo);
+
      }while(i < qtdVoos);
+
+      fclose(arquivo);
 
 }
 

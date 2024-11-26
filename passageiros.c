@@ -110,6 +110,12 @@ void buscarEEditarPassageiro(Passageiro *passageiros, int totalPassageiros, int 
     {
         if (passageiros[i].codigo == codigo)
         {
+            FILE *arquivo = fopen("passageiroEditado.dat", "ab");
+            if (!arquivo)
+            {
+                printf("Erro ao abrir o arquivo.\n");
+                return;
+            }
             printf("Passageiro encontrado:\n");
             printf("Nome: %s\n", passageiros[i].nome);
             printf("Endereco: %s\n", passageiros[i].endereco);
@@ -126,6 +132,9 @@ void buscarEEditarPassageiro(Passageiro *passageiros, int totalPassageiros, int 
                 scanf(" %[^\n]", passageiros[i].telefone);
                 printf("Informacoes atualizadas com sucesso!\n");
             }
+
+            fwrite(&passageiros[i], sizeof(Passageiro), 1, arquivo);
+            fclose(arquivo);
             return;
         }
     }
