@@ -16,35 +16,30 @@ seja marcado como ativo.
 
 */
 
-typedef struct{
-   int codigo_voo;
-   char data[10];
-   char hora[10];
-   char origem[20];
-   char destino[20];
-   int codigo_aviao[6];
-   int codigo_piloto[6];
-   int codigo_copiloto[6];
-   int codigo_comissario[6];
-   float tarifa[6];
-}Voo;
 
 void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destino, int codigo_aviao, int codigo_piloto, int codigo_copiloto, int codigo_comissario, float tarifa){
 
      Voo v;
      int qtd_piloto = 0, qtd_copiloto = 0, i = 0;
+     int qtdVoos;
+
+    do
+    {
+        printf("Digite a quantidade de voos a serem cadastrados: ");
+        scanf("%d", &qtdVoos);
+    } while (qtdVoos <= 0);
 
      do{
 
-     printf("Cadastro de Voo %d - digite 0 (para codigos) ou SAIR para sair do sistema\n", i + 1);
+     printf("Cadastro de Voo %d\n", i + 1);
 
      printf("Digite o Codigo do Voo %d: ", i + 1);
      scanf("%d", &v.codigo_voo);
 
-       if (v.codigo_voo == 0){
-        printf("Voce saiu do sistema");
-        break;
-       }
+      //  if (v.codigo_voo == 0){
+      //   printf("Voce saiu do sistema");
+      //   break;
+      //  }
 
      Data(data);
      Hora(hora);
@@ -54,38 +49,38 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
 
        v.origem[strcspn(v.origem, "\n")] = '\0';
 
-       if (strcmp(v.origem, "SAIR") == 0){
-          printf("Voce saiu do sistema");
-          break;
-       }
+      //  if (strcmp(v.origem, "SAIR") == 0){
+      //     printf("Voce saiu do sistema");
+      //     break;
+      //  }
 
      printf("Digite o Destino: ");
      fgets(v.destino, 20, stdin);
 
        v.destino[strcspn(v.destino, "\n")] = '\0';
 
-       if (strcmp(v.destino, "SAIR") == 0){
-          printf("Voce saiu do sistema");
-          break;
-       }
+      //  if (strcmp(v.destino, "SAIR") == 0){
+      //     printf("Voce saiu do sistema");
+      //     break;
+      //  }
 
 
      printf("Digite o Codigo do Aviao %d: ", i + 1);
      scanf("%d", &v.codigo_aviao);
 
-        if (v.codigo_aviao == 0){
-        printf("Voce saiu do sistema");
-        break;
-        }
+      //   if (v.codigo_aviao == 0){
+      //   printf("Voce saiu do sistema");
+      //   break;
+      //   }
 
      printf("Digite o Codigo do Piloto %d", i + 1);
      printf("\nCaso nao tenha Piloto, digite -1: ");
      scanf("%d", &v.codigo_piloto);
 
-        if (v.codigo_piloto == 0){
-        printf("Voce saiu do sistema");
-        break;
-        }
+      //   if (v.codigo_piloto == 0){
+      //   printf("Voce saiu do sistema");
+      //   break;
+      //   }
 
      if (v.codigo_piloto > 0){
         qtd_piloto++;
@@ -95,10 +90,10 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      printf("\nCaso nao tenha Copiloto, digite -1: ");
      scanf("%d", &v.codigo_copiloto);
 
-        if (v.codigo_copiloto == 0){
-        printf("Voce saiu do sistema");
-        break;
-        }
+      //   if (v.codigo_copiloto == 0){
+      //   printf("Voce saiu do sistema");
+      //   break;
+      //   }
 
      if (v.codigo_copiloto > 0){
         qtd_copiloto++;
@@ -114,22 +109,22 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      printf("Digite o Codigo do Comissario %d: ", i + 1);
      scanf("%d", &v.codigo_comissario);
 
-        if (v.codigo_comissario == 0){
-        printf("Voce saiu do sistema");
-        break;
-        }
+      //   if (v.codigo_comissario == 0){
+      //   printf("Voce saiu do sistema");
+      //   break;
+      //   }
 
      printf("Digite o valor da tarifa do Voo %d: ", i + 1);
      scanf("%f", v.tarifa);
 
-        if (v.tarifa == 0){
-        printf("Voce saiu do sistema");
-        break;
-        }
+      //   if (v.tarifa == 0){
+      //   printf("Voce saiu do sistema");
+      //   break;
+      //   }
 
      i++;
 
-     }while(1);
+     }while(i < qtdVoos);
 
 }
 
@@ -198,11 +193,11 @@ void Hora (char hora){
 }
 
 
-// int main()
-// {
-//     int codigo_voo, codigo_aviao, codigo_piloto, codigo_copiloto, codigo_comissario;
-//     float tarifa;
-//     char data, hora, origem, destino;
+int cadastroVooMain()
+{
+    int codigo_voo, codigo_aviao, codigo_piloto, codigo_copiloto, codigo_comissario;
+    float tarifa;
+    char data, hora, origem, destino;
 
-//     cadastro_voo(codigo_voo, data, hora, origem, destino, codigo_aviao, codigo_piloto, codigo_copiloto, codigo_comissario, tarifa);
-// }
+    cadastro_voo(codigo_voo, data, hora, origem, destino, codigo_aviao, codigo_piloto, codigo_copiloto, codigo_comissario, tarifa);
+}

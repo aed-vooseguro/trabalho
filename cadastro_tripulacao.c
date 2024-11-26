@@ -3,32 +3,39 @@
 #include <string.h>
 #include "header.h"
 
-int codigo_existente (int codigos[], int j, int codigo){
+int codigo_existente(int codigos[], int j, int codigo)
+{
 
-    for (int i = 0; i < j; i++){
-        if (codigos[i] == codigo){
+    for (int i = 0; i < j; i++)
+    {
+        if (codigos[i] == codigo)
+        {
             return 1;
         }
-        else{
+        else
+        {
             return 0;
         }
     }
 }
 
-void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, const char *cargo){
+void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, const char *cargo)
+{
 
-     tripulacao t[50];
-     int codigos[50];
-     int i = 0, j = 0;
-     char a[6];
-     int qtdTripulacao;
+    tripulacao t[50];
+    int codigos[50];
+    int i = 0, j = 0;
+    char a[6];
+    int qtdTripulacao;
 
-    do{
-     printf("Digite a quantidade de tripulantes a serem cadastrados: ");
-     scanf("%d", &qtdTripulacao);
-    }while(qtdTripulacao <= 0);
+    do
+    {
+        printf("Digite a quantidade de tripulantes a serem cadastrados: ");
+        scanf("%d", &qtdTripulacao);
+    } while (qtdTripulacao <= 0);
 
-     do{
+    do
+    {
 
         printf("Cadastro da Tripulacao %d.\n", i + 1);
 
@@ -36,12 +43,14 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
         scanf("%d", &t[i].codigo);
         getchar();
 
-        if (t[i].codigo < 0){
+        if (t[i].codigo < 0)
+        {
             printf("Codigos negativos sao invalidos. Digite novamente.\n");
             continue;
         }
 
-        if (codigo_existente(codigos, j, t[i].codigo)){
+        if (codigo_existente(codigos, j, t[i].codigo))
+        {
             printf("Esse codigo ja existe. Digite novamente.\n");
             continue;
         }
@@ -55,7 +64,6 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
         //     printf("Voce saiu do sistema.");
         //     break;
         // }
-
 
         printf("Digite o telefone da pessoa %d: ", i + 1);
         fgets(t[i].telefone, 20, stdin);
@@ -81,7 +89,7 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
         j++;
         i++;
 
-     }while(i < qtdTripulacao);
+    } while (i < qtdTripulacao);
 }
 
 int cadastroTripulacaoMain()

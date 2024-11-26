@@ -34,4 +34,23 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
 int codigo_existente (int codigos[], int j, int codigo);
 int cadastroTripulacaoMain();
 
+//structs e funções de cadastro_voo.c
+typedef struct{
+   int codigo_voo;
+   char data[10];
+   char hora[10];
+   char origem[20];
+   char destino[20];
+   int codigo_aviao[6];
+   int codigo_piloto[6];
+   int codigo_copiloto[6];
+   int codigo_comissario[6];
+   float tarifa[6];
+}Voo;
+
+void Hora (char hora);
+void Data (char data);
+int cadastroVooMain();
+void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destino, int codigo_aviao, int codigo_piloto, int codigo_copiloto, int codigo_comissario, float tarifa);
+
 #endif // HEADER_H_INCLUDED
