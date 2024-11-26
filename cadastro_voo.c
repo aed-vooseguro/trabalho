@@ -22,6 +22,7 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      Voo v;
      int qtd_piloto = 0, qtd_copiloto = 0, i = 0;
      int qtdVoos;
+     extern int voosCadastrados[100]; // Supondo um limite de 100 voos
 
     do
     {
@@ -131,6 +132,8 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      i++;
 
        fwrite(&v, sizeof(Voo), 1, arquivo);
+
+       voosCadastrados[i] = v.codigo_voo;
 
      }while(i < qtdVoos);
 

@@ -250,7 +250,7 @@ void exibirAssentos(int codigoVoo) {
     Assento assento;
 
     if (!arquivo) {
-        printf("Erro ao abrir o arquivo de assentos.\n");
+        printf("Erro ao abrir o arquivo de assentos, voo não foi cadastrado.\n");
         return;
     }
 
