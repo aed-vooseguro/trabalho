@@ -5,27 +5,6 @@
 #include "header.h"
 
 
-// Estruturas
-typedef struct {
-    int codigoVoo;
-    char origem[50];
-    char destino[50];
-    char status; // 'A' para ativo, 'I' para inativo
-    float tarifa;
-} Voo;
-
-typedef struct {
-    int numero;
-    int codigoVoo;
-    char status; // 'L' para livre, 'O' para ocupado
-} Assento;
-
-typedef struct {
-    int codigoVoo;
-    int numeroAssento;
-    int codigoPassageiro;
-} Reserva;
-
 // Prototipa��o
 int cadastrarAssentos();
 int reservarAssento();
@@ -35,49 +14,49 @@ int validarEntradaNumerica(const char *mensagem);
 int vooValido(int codigoVoo);
 
 // Fun��o principal
-// int main() {
-//     int opcao;
+int gerenciaAssentosMain() {
+    int opcao;
 
-//     do {
-//         printf("\n=== Sistema de Gerenciamento de Voos ===\n");
-//         printf("1. Cadastrar Assentos\n");
-//         printf("2. Reservar Assento\n");
-//         printf("3. Liberar Reserva\n");
-//         printf("4. Exibir Assentos\n");
-//         printf("5. Sair\n");
-//         printf("Escolha uma op��o: ");
-//         opcao = validarEntradaNumerica("");
+    do {
+        printf("\n=== Sistema de Gerenciamento de Voos ===\n");
+        printf("1. Cadastrar Assentos\n");
+        printf("2. Reservar Assento\n");
+        printf("3. Liberar Reserva\n");
+        printf("4. Exibir Assentos\n");
+        printf("5. Sair\n");
+        printf("Escolha uma op��o: ");
+        opcao = validarEntradaNumerica("");
 
-//         switch (opcao) {
-//             case 1:
-//                 cadastrarAssentos();
-//                 break;
-//             case 2:
-//                 reservarAssento();
-//                 break;
-//             case 3:
-//                 liberarReserva();
-//                 break;
-//             case 4:
-//                 printf("Digite o c�digo do voo: ");
-//                 int codigo = validarEntradaNumerica("");
-//                 exibirAssentos(codigo);
-//                 break;
-//             case 5:
-//                 printf("Encerrando o sistema...\n");
-//                 break;
-//             default:
-//                 printf("Op��o inv�lida. Tente novamente.\n");
-//         }
-//     } while (opcao != 5);
+        switch (opcao) {
+            case 1:
+                cadastrarAssentos();
+                break;
+            case 2:
+                reservarAssento();
+                break;
+            case 3:
+                liberarReserva();
+                break;
+            case 4:
+                printf("Digite o c�digo do voo: ");
+                int codigo = validarEntradaNumerica("");
+                exibirAssentos(codigo);
+                break;
+            case 5:
+                printf("Encerrando o sistema...\n");
+                break;
+            default:
+                printf("Op��o inv�lida. Tente novamente.\n");
+        }
+    } while (opcao != 5);
 
-//     return 0;
-// }
+    return 0;
+}
 
 // Fun��o para validar se o voo � v�lido
 int vooValido(int codigoVoo) {
     FILE *arquivo = fopen("voos.dat", "rb");
-    Voo voo;
+    VooAssento voo;
 
     if (!arquivo) {
         printf("Erro ao abrir o arquivo de voos.\n");

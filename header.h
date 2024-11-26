@@ -18,7 +18,6 @@ typedef struct {
 
 void cadastrarPassageiro(Passageiro *passageiro, int *codigoAtual);
 int verificarUsuario(int *codigoUsuario);
-int passageirosMain();
 void atualizarPontosFidelidade(Passageiro *passageiro);
 void buscarEEditarPassageiro(Passageiro *passageiros, int totalPassageiros, int codigo);
 
@@ -52,5 +51,34 @@ void Hora (char hora);
 void Data (char data);
 int cadastroVooMain();
 void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destino, int codigo_aviao, int codigo_piloto, int codigo_copiloto, int codigo_comissario, float tarifa);
+
+//structs e funções de gerencia_assentos.c
+typedef struct {
+    int codigoVoo;
+    char origem[50];
+    char destino[50];
+    char status; // 'A' para ativo, 'I' para inativo
+    float tarifa;
+} VooAssento;
+
+typedef struct {
+    int numero;
+    int codigoVoo;
+    char status; // 'L' para livre, 'O' para ocupado
+} Assento;
+
+typedef struct {
+    int codigoVoo;
+    int numeroAssento;
+    int codigoPassageiro;
+} Reserva;
+
+int cadastrarAssentos();
+int reservarAssento();
+int liberarReserva();
+void exibirAssentos(int codigoVoo);
+int validarEntradaNumerica(const char *mensagem);
+int vooValido(int codigoVoo);
+int gerenciaAssentosMain();
 
 #endif // HEADER_H_INCLUDED
