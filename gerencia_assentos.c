@@ -1,289 +1,171 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include "header.h"
 
 
-// Prototipa��o
-int cadastrarAssentos();
-int reservarAssento();
-int liberarReserva();
-void exibirAssentos(int codigoVoo);
-int validarEntradaNumerica(const char *mensagem);
-int vooValido(int codigoVoo);
 
-// Fun��o principal
-int gerenciaAssentosMain() {
-    int opcao;
-
-    do {
-        printf("\n=== Sistema de Gerenciamento de Voos ===\n");
-        printf("1. Cadastrar Assentos\n");
-        printf("2. Reservar Assento\n");
-        printf("3. Liberar Reserva\n");
-        printf("4. Exibir Assentos\n");
-        printf("5. Sair\n");
-        printf("Escolha uma op��o: ");
-        opcao = validarEntradaNumerica("");
-
-        switch (opcao) {
-            case 1:
-                cadastrarAssentos();
-                break;
-            case 2:
-                reservarAssento();
-                break;
-            case 3:
-                liberarReserva();
-                break;
-            case 4:
-                printf("Digite o c�digo do voo: ");
-                int codigo = validarEntradaNumerica("");
-                exibirAssentos(codigo);
-                break;
-            case 5:
-                printf("Encerrando o sistema...\n");
-                break;
-            default:
-                printf("Op��o inv�lida. Tente novamente.\n");
-        }
-    } while (opcao != 5);
-
-    return 0;
-}
-
-// Fun��o para validar se o voo � v�lido
-int vooValido(int codigoVoo) {
-    FILE *arquivo = fopen("voos.dat", "rb");
-    VooAssento voo;
-
-    if (!arquivo) {
-        printf("Erro ao abrir o arquivo de voos.\n");
-        return 0;
-    }
-
-    while (fread(&voo, sizeof(Voo), 1, arquivo)) {
-        if (voo.codigoVoo == codigoVoo && voo.status == 'A') {
-            fclose(arquivo);
-            return 1;
-        }
-    }
-
-    fclose(arquivo);
-    return 0;
-}
-
-// Fun��o para cadastrar assentos
-int cadastrarAssentos() {
-    FILE *arquivo = fopen("assentos.dat", "ab");
-    if (!arquivo) {
-        printf("Erro ao abrir o arquivo de assentos.\n");
-        return 1;
-    }
-
-    Assento assento;
-    int total;
-
-    printf("Digite o c�digo do voo: ");
-    assento.codigoVoo = validarEntradaNumerica("");
-
-    if (!vooValido(assento.codigoVoo)) {
-        printf("Erro: C�digo de voo inv�lido ou inativo.\n");
-        fclose(arquivo);
-        return 1;
-    }
-
-    printf("Quantos assentos deseja cadastrar? ");
-    total = validarEntradaNumerica("");
-
-    for (int i = 0; i < total; i++) {
-        printf("Digite o n�mero do assento: ");
-        assento.numero = validarEntradaNumerica("");
-        assento.status = 'L'; // Todos os assentos come�am livres
-
-        fwrite(&assento, sizeof(Assento), 1, arquivo);
-        printf("Assento %d cadastrado com sucesso!\n", assento.numero);
-    }
-
-    fclose(arquivo);
-    return 0;
-}
-
-// Fun��o para reservar um assento
-int reservarAssento() {
-    FILE *arquivo = fopen("assentos.dat", "rb+");
-    FILE *reservas = fopen("reservas.dat", "ab");
-    if (!arquivo || !reservas) {
-        printf("Erro ao abrir arquivos necess�rios.\n");
-        return 1;
-    }
-
-    Reserva reserva;
-    Assento assento;
-    int encontrado = 0;
-
-    printf("Digite o c�digo do voo: ");
-    reserva.codigoVoo = validarEntradaNumerica("");
-
-    if (!vooValido(reserva.codigoVoo)) {
-        printf("Erro: C�digo de voo inv�lido ou inativo.\n");
-        fclose(arquivo);
-        fclose(reservas);
-        return 1;
-    }
-
-    printf("Digite o n�mero do assento: ");
-    reserva.numeroAssento = validarEntradaNumerica("");
-
-    printf("Digite o c�digo do passageiro: ");
-    reserva.codigoPassageiro = validarEntradaNumerica("");
-
-    while (fread(&assento, sizeof(Assento), 1, arquivo)) {
-        if (assento.codigoVoo == reserva.codigoVoo && assento.numero == reserva.numeroAssento) {
-            encontrado = 1;
-
-            if (assento.status == 'O') {
-                printf("Erro: Assento j� est� ocupado.\n");
-                fclose(arquivo);
-                fclose(reservas);
-                return 1;
-            }
-
-            assento.status = 'O';
-            fseek(arquivo, -sizeof(Assento), SEEK_CUR);
-            fwrite(&assento, sizeof(Assento), 1, arquivo);
-
-            fwrite(&reserva, sizeof(Reserva), 1, reservas);
-            printf("Reserva realizada com sucesso!\n");
-            break;
-        }
-    }
-
-    if (!encontrado) {
-        printf("Erro: Assento n�o encontrado para este voo.\n");
-    }
-
-    fclose(arquivo);
-    fclose(reservas);
-    return 0;
-}
-
-// Fun��o para liberar uma reserva
-int liberarReserva() {
-    FILE *arquivo = fopen("assentos.dat", "rb+");
-    FILE *reservas = fopen("reservas.dat", "rb+");
-    if (!arquivo || !reservas) {
-        printf("Erro ao abrir arquivos necess�rios.\n");
-        return 1;
-    }
-
-    Reserva reserva;
-    Assento assento;
-    int encontrado = 0, codigoVoo, numeroAssento;
-
-    printf("Digite o c�digo do voo: ");
-    codigoVoo = validarEntradaNumerica("");
-
-    if (!vooValido(codigoVoo)) {
-        printf("Erro: C�digo de voo inv�lido ou inativo.\n");
-        fclose(arquivo);
-        fclose(reservas);
-        return 1;
-    }
-
-    printf("Digite o n�mero do assento: ");
-    numeroAssento = validarEntradaNumerica("");
-
-    while (fread(&assento, sizeof(Assento), 1, arquivo)) {
-        if (assento.codigoVoo == codigoVoo && assento.numero == numeroAssento) {
-            encontrado = 1;
-
-            if (assento.status == 'L') {
-                printf("Erro: Assento j� est� livre.\n");
-                fclose(arquivo);
-                fclose(reservas);
-                return 1;
-            }
-
-            assento.status = 'L';
-            fseek(arquivo, -sizeof(Assento), SEEK_CUR);
-            fwrite(&assento, sizeof(Assento), 1, arquivo);
-
-            // Atualizar as reservas
-            FILE *temp = fopen("temp.dat", "wb");
-            if (!temp) {
-                printf("Erro ao criar arquivo tempor�rio.\n");
-                fclose(arquivo);
-                fclose(reservas);
-                return 1;
-            }
-
-            while (fread(&reserva, sizeof(Reserva), 1, reservas)) {
-                if (!(reserva.codigoVoo == codigoVoo && reserva.numeroAssento == numeroAssento)) {
-                    fwrite(&reserva, sizeof(Reserva), 1, temp);
-                }
-            }
-
-            fclose(reservas);
-            fclose(temp);
-
-            remove("reservas.dat");
-            rename("temp.dat", "reservas.dat");
-
-            printf("Reserva liberada com sucesso!\n");
-            break;
-        }
-    }
-
-    if (!encontrado) {
-        printf("Erro: Assento n�o encontrado para este voo.\n");
-    }
-
-    fclose(arquivo);
-    return 0;
-}
-
-// Fun��o para exibir assentos de um voo
-void exibirAssentos(int codigoVoo) {
-    FILE *arquivo = fopen("assentos.dat", "rb");
-    Assento assento;
-
-    if (!arquivo) {
-        printf("Erro ao abrir o arquivo de assentos, voo não foi cadastrado.\n");
+// aqui e o cadastro de assnetos (ele só funciona quando puxa o código do voo)
+void cadastro_assento(int codigo_voo) {
+    FILE *arquivo_voos = fopen("voos.dat", "rb");
+    FILE *arquivo_assentos = fopen("assentos.dat", "ab");
+    if (!arquivo_voos || !arquivo_assentos) {
+        printf("Erro ao abrir os arquivos.\n");
         return;
     }
 
-    printf("Assentos do voo %d:\n", codigoVoo);
-    printf("N�mero\tStatus\n");
+    Voo v;
+    int encontrou = 0, qtd_assentos;
 
-    while (fread(&assento, sizeof(Assento), 1, arquivo)) {
-        if (assento.codigoVoo == codigoVoo) {
-            printf("%d\t%c\n", assento.numero, assento.status);
+    while (fread(&v, sizeof(Voo), 1, arquivo_voos)) {
+        if (v.codigo_voo == codigo_voo) {
+            encontrou = 1;
+            break;
         }
     }
 
-    fclose(arquivo);
+    if (!encontrou) {
+        printf("Voo não encontrado.\n");
+        fclose(arquivo_voos);
+        fclose(arquivo_assentos);
+        return;
+    }
+
+    printf("Digite a quantidade de assentos no voo %d: ", codigo_voo);
+    scanf("%d", &qtd_assentos);
+
+    for (int i = 1; i <= qtd_assentos; i++) {
+        Assento a;
+        a.numero_assento = i;
+        a.codigo_voo = codigo_voo;
+        a.status = 0; // 0 = Livre
+        fwrite(&a, sizeof(Assento), 1, arquivo_assentos);
+    }
+
+    printf("Assentos cadastrados com sucesso para o voo %d.\n", codigo_voo);
+
+    fclose(arquivo_voos);
+    fclose(arquivo_assentos);
 }
 
-// Fun��o para validar entradas num�ricas
-int validarEntradaNumerica(const char *mensagem) {
-    char entrada[100];
-    int valido = 0;
 
-    while (!valido) {
-        printf("%s", mensagem);
-        scanf("%s", entrada);
+// Aqui ele reserva o assento 
 
-        valido = 1;
-        for (int i = 0; i < strlen(entrada); i++) {
-            if (!isdigit(entrada[i])) {
-                valido = 0;
-                printf("Erro: Digite apenas n�meros.\n");
-                break;
-            }
+void realizar_reserva(int codigo_voo, int numero_assento, int codigo_passageiro) {
+    FILE *arquivo_voos = fopen("voos.dat", "rb");
+    FILE *arquivo_assentos = fopen("assentos.dat", "r+b");
+    FILE *arquivo_reservas = fopen("reservas.dat", "ab");
+    if (!arquivo_voos || !arquivo_assentos || !arquivo_reservas) {
+        printf("Erro ao abrir os arquivos.\n");
+        return;
+    }
+
+    Voo v;
+    int encontrou_voo = 0;
+
+    while (fread(&v, sizeof(Voo), 1, arquivo_voos)) {
+        if (v.codigo_voo == codigo_voo && v.status == 1) { // Status 1 = Ativo
+            encontrou_voo = 1;
+            break;
         }
     }
 
-    return atoi(entrada);
+    if (!encontrou_voo) {
+        printf("Voo não encontrado ou inativo.\n");
+        fclose(arquivo_voos);
+        fclose(arquivo_assentos);
+        fclose(arquivo_reservas);
+        return;
+    }
+
+    Assento a;
+    int encontrou_assento = 0;
+
+    while (fread(&a, sizeof(Assento), 1, arquivo_assentos)) {
+        if (a.codigo_voo == codigo_voo && a.numero_assento == numero_assento) {
+            encontrou_assento = 1;
+            if (a.status == 1) { // 1 = Ocupado
+                printf("Assento já ocupado.\n");
+                fclose(arquivo_voos);
+                fclose(arquivo_assentos);
+                fclose(arquivo_reservas);
+                return;
+            }
+            a.status = 1; // Marca como ocupado
+            fseek(arquivo_assentos, -sizeof(Assento), SEEK_CUR);
+            fwrite(&a, sizeof(Assento), 1, arquivo_assentos);
+            break;
+        }
+    }
+
+    if (!encontrou_assento) {
+        printf("Assento não encontrado.\n");
+        fclose(arquivo_voos);
+        fclose(arquivo_assentos);
+        fclose(arquivo_reservas);
+        return;
+    }
+
+    Reserva r;
+    r.codigo_voo = codigo_voo;
+    r.numero_assento = numero_assento;
+    r.codigo_passageiro = codigo_passageiro;
+    fwrite(&r, sizeof(Reserva), 1, arquivo_reservas);
+
+    printf("Reserva realizada com sucesso.\n");
+
+    fclose(arquivo_voos);
+    fclose(arquivo_assentos);
+    fclose(arquivo_reservas);
+}
+
+
+// Aqui voce voce consegue cancelar um assento reservado
+
+void cancelar_reserva(int codigo_voo, int numero_assento) {
+    FILE *arquivo_assentos = fopen("assentos.dat", "r+b");
+    FILE *arquivo_reservas = fopen("reservas.dat", "rb");
+    FILE *arquivo_reservas_temp = fopen("reservas_temp.dat", "wb");
+
+    if (!arquivo_assentos || !arquivo_reservas || !arquivo_reservas_temp) {
+        printf("Erro ao abrir os arquivos.\n");
+        return;
+    }
+
+    Assento a;
+    int encontrou_assento = 0;
+
+    while (fread(&a, sizeof(Assento), 1, arquivo_assentos)) {
+        if (a.codigo_voo == codigo_voo && a.numero_assento == numero_assento) {
+            encontrou_assento = 1;
+            a.status = 0; // Marca como livre
+            fseek(arquivo_assentos, -sizeof(Assento), SEEK_CUR);
+            fwrite(&a, sizeof(Assento), 1, arquivo_assentos);
+            break;
+        }
+    }
+
+    if (!encontrou_assento) {
+        printf("Assento não encontrado.\n");
+        fclose(arquivo_assentos);
+        fclose(arquivo_reservas);
+        fclose(arquivo_reservas_temp);
+        return;
+    }
+
+    Reserva r;
+    while (fread(&r, sizeof(Reserva), 1, arquivo_reservas)) {
+        if (!(r.codigo_voo == codigo_voo && r.numero_assento == numero_assento)) {
+            fwrite(&r, sizeof(Reserva), 1, arquivo_reservas_temp);
+        }
+    }
+
+    fclose(arquivo_assentos);
+    fclose(arquivo_reservas);
+    fclose(arquivo_reservas_temp);
+
+    remove("reservas.dat");
+    rename("reservas_temp.dat", "reservas.dat");
+
+    printf("Reserva cancelada e assento liberado.\n");
 }
