@@ -3,7 +3,7 @@
 #include <string.h>
 #include "header.h"
 
-
+int voosCadastrados[100];
 /*
 VOO: c�digo do voo, data, hora, origem, destino, c�digo do avi�o, c�digo do piloto,
 c�digo do copiloto, c�digo do comiss�rio, status (ativo/inativo), tarifa.
@@ -22,7 +22,6 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      Voo v;
      int qtd_piloto = 0, qtd_copiloto = 0, i = 0;
      int qtdVoos;
-     extern int voosCadastrados[100]; // Supondo um limite de 100 voos
 
     do
     {
@@ -133,7 +132,12 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
 
        fwrite(&v, sizeof(Voo), 1, arquivo);
 
-       voosCadastrados[i] = v.codigo_voo;
+      for (int i = 0; i < 100; i++){
+         if (!voosCadastrados[i]){
+            voosCadastrados[i] = v.codigo_voo;
+            break;
+         }
+      }
 
      }while(i < qtdVoos);
 

@@ -3,6 +3,8 @@
 #include <string.h>
 #include "header.h"
 
+int passageirosCadastrados[100];
+
 void cadastrarPassageiro(Passageiro *passageiro, int *codigoAtual)
 {
     FILE *arquivo = fopen("novoPassageiro.dat", "ab");
@@ -30,6 +32,13 @@ void cadastrarPassageiro(Passageiro *passageiro, int *codigoAtual)
 
     fwrite(passageiro, sizeof(Passageiro), 1, arquivo);
     fclose(arquivo);
+
+    for (int i = 0; i < 100; i++){
+         if (!passageirosCadastrados[i]){
+            passageirosCadastrados[i] = passageiro->codigo;
+            break;
+         }
+      }
 
     printf("Passageiro cadastrado com sucesso! Codigo do passageiro: %d\n", passageiro->codigo);
 }
