@@ -22,6 +22,7 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
      Voo v;
      int qtd_piloto = 0, qtd_copiloto = 0, i = 0;
      int qtdVoos;
+     int vooJaExiste = 0;
 
     do
     {
@@ -39,8 +40,21 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
 
      printf("Cadastro de Voo %d\n", i + 1);
 
-     printf("Digite o Codigo do Voo %d: ", i + 1);
+   do{
+      printf("Digite o Codigo do Voo %d: ", i + 1);
      scanf("%d", &v.codigo_voo);
+
+     for (int i = 0; i < 100; i++){
+         if (v.codigo_voo == voosCadastrados[i]){
+            printf("Codigo de Voo ja existente. Digite outro codigo.\n");
+            vooJaExiste = 1;
+            break;
+         }
+      }
+   }while (vooJaExiste == 1);
+
+   
+     
 
       //  if (v.codigo_voo == 0){
       //   printf("Voce saiu do sistema");

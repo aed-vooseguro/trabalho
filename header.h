@@ -54,6 +54,7 @@ void Data (char data);
 int cadastroVooMain();
 void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destino, int codigo_aviao, int codigo_piloto, int codigo_copiloto, int codigo_comissario, float tarifa);
 extern int voosCadastrados[100];
+
 //structs e funções de gerencia_assentos.c
 typedef struct {
     int codigoVoo;
@@ -67,6 +68,7 @@ typedef struct {
     int numero;
     int codigoVoo;
     char status; // 'L' para livre, 'O' para ocupado
+    int codigoPassageiro;
 } Assento;
 
 typedef struct {
@@ -78,6 +80,7 @@ typedef struct {
 void cadastro_assento(int codigo_voo);
 void realizar_reserva(int codigo_voo, int numero_assento, int codigo_passageiro);
 void cancelar_reserva(int codigo_voo, int numero_assento);
+void inicializaAssentos();
 void gerenciaAssentosMain();
 
 #endif // HEADER_H_INCLUDED

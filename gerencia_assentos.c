@@ -49,6 +49,7 @@ void cadastro_assento(int codigo_voo) {
     printf("Digite a quantidade de assentos no voo %d: ", codigo_voo);
     scanf("%d", &qtd_assentos);
 
+
     // Cadastra os assentos para o voo
     for (int i = 1; i <= qtd_assentos; i++) {
         Assento a;
@@ -80,6 +81,13 @@ void realizar_reserva(int codigo_voo, int numero_assento, int codigo_passageiro)
     // Verifica se o voo e assento estão disponíveis
     if (numero_assento <= 0 || numero_assento > MAX_ASSENTOS) {
         printf("Número de assento inválido.\n");
+        fclose(arquivo_assentos);
+        fclose(arquivo_reservas);
+        return;
+    }
+
+    if (voosAssentos[codigo_voo][numero_assento - 1].status == -1) { // -1 = Não cadastrado
+        printf("Assento não cadastrado.\n");
         fclose(arquivo_assentos);
         fclose(arquivo_reservas);
         return;
@@ -167,7 +175,16 @@ void cancelar_reserva(int codigo_voo, int numero_assento) {
     printf("Reserva cancelada e assento liberado.\n");
 }
 
+void inicializaAssentos() {
+    for (int i = 0; i < MAX_VOOS; i++) {
+        for (int j = 0; j < MAX_ASSENTOS; j++) {
+            voosAssentos[i][j].status = -1; // -1 = Não cadastrado
+        }
+    }
+}
+
 void gerenciaAssentosMain() {
+    inicializaAssentos();
     int opcao;
 
     do {
