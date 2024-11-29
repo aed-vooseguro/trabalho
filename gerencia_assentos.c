@@ -4,132 +4,95 @@
 #include "header.h"
 
 
+#define MAX_ASSENTOS 200
 
-// aqui e o cadastro de assnetos (ele só funciona quando puxa o código do voo)
+int assentos[MAX_VOOS][MAX_ASSENTOS] = {0}; // Inicializa todos como livres
+
+// Função para exibir os assentos de um voo
+void exibir_assentos(int codigo_voo, int qtd_assentos) {
+    printf("Mapa de Assentos do Voo %d:\n", codigo_voo);
+    for (int i = 0; i < qtd_assentos; i++) {
+        printf("[%d: %s] ", i + 1, assentos[codigo_voo][i] == 0 ? "Livre" : "Ocupado");
+        if ((i + 1) % 10 == 0) printf("\n"); // Quebra de linha para melhor visualização
+    }
+    printf("\n");
+}
+
+// Cadastro de assentos
 void cadastro_assento(int codigo_voo) {
-    FILE *arquivo_voos = fopen("voos.dat", "rb");
     FILE *arquivo_assentos = fopen("assentos.dat", "ab");
-    if (!arquivo_voos || !arquivo_assentos) {
-        printf("Erro ao abrir os arquivos.\n");
+    if (!arquivo_assentos) {
+        printf("Erro ao abrir o arquivo de assentos.\n");
         return;
     }
 
-    Voo v;
-    int encontrou = 0, qtd_assentos;
-
-    // while (fread(&v, sizeof(Voo), 1, arquivo_voos)) {
-    //     if (v.codigo_voo == codigo_voo) {
-    //         encontrou = 1;
-    //         break;
-    //     }
-    // }
-
-    for (int i = 0; i < 100; i++) {
-        if (voosCadastrados[i] == codigo_voo) {
-            encontrou = 1;
-            break;
-        }
-    }
-
-    if (!encontrou) {
-        printf("Voo não encontrado.\n");
-        fclose(arquivo_voos);
-        fclose(arquivo_assentos);
-        return;
-    }
-
+    int qtd_assentos;
     printf("Digite a quantidade de assentos no voo %d: ", codigo_voo);
     scanf("%d", &qtd_assentos);
 
-    for (int i = 1; i <= qtd_assentos; i++) {
+    for (int i = 0; i < qtd_assentos; i++) {
         Assento a;
-        a.numero = i;
+        a.numero = i + 1;
         a.codigoVoo = codigo_voo;
         a.status = 0; // 0 = Livre
         fwrite(&a, sizeof(Assento), 1, arquivo_assentos);
+        assentos[codigo_voo][i] = 0; // Atualiza a matriz
     }
 
     printf("Assentos cadastrados com sucesso para o voo %d.\n", codigo_voo);
+    exibir_assentos(codigo_voo, qtd_assentos);
 
-    fclose(arquivo_voos);
     fclose(arquivo_assentos);
 }
 
-
-// Aqui ele reserva o assento 
-
+// Realizar reserva
 void realizar_reserva(int codigo_voo, int numero_assento, int codigo_passageiro) {
-    FILE *arquivo_voos = fopen("voos.dat", "rb");
     FILE *arquivo_assentos = fopen("assentos.dat", "r+b");
     FILE *arquivo_reservas = fopen("reservas.dat", "ab");
-    if (!arquivo_voos || !arquivo_assentos || !arquivo_reservas) {
+    if (!arquivo_assentos || !arquivo_reservas) {
         printf("Erro ao abrir os arquivos.\n");
         return;
     }
 
-
-    VooAssento v;
-    int encontrou_voo = 0;
-
-    for (int i = 0; i < 100; i++) {
-        if (voosCadastrados[i] == codigo_voo) {
-            encontrou_voo = 1;
-            break;
-        }
-    }
-
-    if (!encontrou_voo) {
-        printf("Voo não encontrado ou inativo.\n");
-        fclose(arquivo_voos);
-        fclose(arquivo_assentos);
-        fclose(arquivo_reservas);
-        return;
-    }
-
-    Assento a;
     int encontrou_assento = 0;
+    Assento a;
 
     while (fread(&a, sizeof(Assento), 1, arquivo_assentos)) {
         if (a.codigoVoo == codigo_voo && a.numero == numero_assento) {
             encontrou_assento = 1;
-            if (a.status == 1) { // 1 = Ocupado
-                printf("Assento já ocupado.\n");
-                fclose(arquivo_voos);
+            if (a.status == 1) { // Assento já ocupado
+                printf("Assento %d já ocupado.\n", numero_assento);
                 fclose(arquivo_assentos);
                 fclose(arquivo_reservas);
                 return;
             }
+
             a.status = 1; // Marca como ocupado
             fseek(arquivo_assentos, -sizeof(Assento), SEEK_CUR);
             fwrite(&a, sizeof(Assento), 1, arquivo_assentos);
+            assentos[codigo_voo][numero_assento - 1] = 1; // Atualiza a matriz
             break;
         }
     }
 
     if (!encontrou_assento) {
         printf("Assento não encontrado.\n");
-        fclose(arquivo_voos);
-        fclose(arquivo_assentos);
-        fclose(arquivo_reservas);
-        return;
+    } else {
+        Reserva r;
+        r.codigoVoo = codigo_voo;
+        r.numeroAssento = numero_assento;
+        r.codigoPassageiro = codigo_passageiro;
+        fwrite(&r, sizeof(Reserva), 1, arquivo_reservas);
+
+        printf("Reserva realizada com sucesso.\n");
+        exibir_assentos(codigo_voo, MAX_ASSENTOS);
     }
 
-    Reserva r;
-    r.codigoVoo = codigo_voo;
-    r.numeroAssento = numero_assento;
-    r.codigoPassageiro = codigo_passageiro;
-    fwrite(&r, sizeof(Reserva), 1, arquivo_reservas);
-
-    printf("Reserva realizada com sucesso.\n");
-
-    fclose(arquivo_voos);
     fclose(arquivo_assentos);
     fclose(arquivo_reservas);
 }
 
-
-// Aqui voce voce consegue cancelar um assento reservado
-
+// Cancelar reserva
 void cancelar_reserva(int codigo_voo, int numero_assento) {
     FILE *arquivo_assentos = fopen("assentos.dat", "r+b");
     FILE *arquivo_reservas = fopen("reservas.dat", "rb");
@@ -149,23 +112,23 @@ void cancelar_reserva(int codigo_voo, int numero_assento) {
             a.status = 0; // Marca como livre
             fseek(arquivo_assentos, -sizeof(Assento), SEEK_CUR);
             fwrite(&a, sizeof(Assento), 1, arquivo_assentos);
+            assentos[codigo_voo][numero_assento - 1] = 0; // Atualiza a matriz
             break;
         }
     }
 
     if (!encontrou_assento) {
         printf("Assento não encontrado.\n");
-        fclose(arquivo_assentos);
-        fclose(arquivo_reservas);
-        fclose(arquivo_reservas_temp);
-        return;
-    }
-
-    Reserva r;
-    while (fread(&r, sizeof(Reserva), 1, arquivo_reservas)) {
-        if (!(r.codigoVoo == codigo_voo && r.numeroAssento == numero_assento)) {
-            fwrite(&r, sizeof(Reserva), 1, arquivo_reservas_temp);
+    } else {
+        Reserva r;
+        while (fread(&r, sizeof(Reserva), 1, arquivo_reservas)) {
+            if (!(r.codigoVoo == codigo_voo && r.numeroAssento == numero_assento)) {
+                fwrite(&r, sizeof(Reserva), 1, arquivo_reservas_temp);
+            }
         }
+
+        printf("Reserva cancelada e assento liberado.\n");
+        exibir_assentos(codigo_voo, MAX_ASSENTOS);
     }
 
     fclose(arquivo_assentos);
@@ -174,10 +137,9 @@ void cancelar_reserva(int codigo_voo, int numero_assento) {
 
     remove("reservas.dat");
     rename("reservas_temp.dat", "reservas.dat");
-
-    printf("Reserva cancelada e assento liberado.\n");
 }
 
+// Main
 void gerenciaAssentosMain() {
     int opcao;
 
@@ -226,5 +188,4 @@ void gerenciaAssentosMain() {
                 break;
         }
     } while (opcao != 4);
-    
 }
