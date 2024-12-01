@@ -27,6 +27,8 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
     int i = 0, j = 0;
     char a[6];
     int qtdTripulacao;
+    int verificadorCodigo;
+
 
     FILE *arquivo = fopen("tripulacao.dat", "ab");
     if (!arquivo)
@@ -46,21 +48,25 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
 
         printf("Cadastro da Tripulacao %d.\n", i + 1);
 
-        printf("Digite o codigo da pessoa %d: ", i + 1);
-        scanf("%d", &t[i].codigo);
-        getchar();
+        do{
+            verificadorCodigo = 0;
+            printf("Digite o codigo da pessoa %d: ", i + 1);
+            scanf("%d", &t[i].codigo);
+            getchar();
 
-        if (t[i].codigo < 0)
-        {
-            printf("Codigos negativos sao invalidos. Digite novamente.\n");
-            continue;
-        }
+            if (t[i].codigo < 0)
+            {
+                printf("Codigos negativos sao invalidos. Digite novamente.\n");
+                verificadorCodigo = 1;
+            }
 
-        if (codigo_existente(codigos, j, t[i].codigo))
-        {
-            printf("Esse codigo ja existe. Digite novamente.\n");
-            continue;
-        }
+            if (codigo_existente(codigos, j, t[i].codigo))
+            {
+                printf("Esse codigo ja existe. Digite novamente.\n");
+                verificadorCodigo = 1;
+            }
+
+        } while (verificadorCodigo == 1);
 
         printf("Digite o nome da pessoa %d: ", i + 1);
         fgets(t[i].nome, 20, stdin);
@@ -96,7 +102,6 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
         j++;
         fwrite(&t[i], sizeof(tripulacao), 1, arquivo);
         i++;
-
 
     } while (i < qtdTripulacao);
     fclose(arquivo);
