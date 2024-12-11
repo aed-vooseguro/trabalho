@@ -26,6 +26,7 @@ int main() {
             printf("1. Cadastrar Passageiro\n2. Cadastrar tripulacao\n3. Cadastrar voos\n4. Gerenciar Assentos\n5. Sair\n");
             printf("Escolha uma opcao: ");
             scanf("%d", &opcao);
+            printf("\n");
 
             if (opcao == 1)
             {
@@ -59,6 +60,7 @@ int main() {
             printf("1. Atualizar Pontos de Fidelidade\n2. Buscar e Editar Dados\n3. Sair\n");
             printf("Escolha uma opcao: ");
             scanf("%d", &opcao);
+            printf("\n");
 
             if (opcao == 1)
             {
@@ -82,7 +84,7 @@ int main() {
             }
             else
             {
-                printf("Op��o invalida!\n");
+                printf("Opcao invalida!\n");
             }
         }
         else if (tipoUsuario == 0)
@@ -94,7 +96,7 @@ int main() {
         {
             break;
         }
-        
+
     }
 
     return 0;

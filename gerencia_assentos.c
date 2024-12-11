@@ -39,7 +39,7 @@ void cadastro_assento(int codigo_voo) {
     }
 
     if (!encontrou) {
-        printf("Voo não encontrado.\n");
+        printf("\nVoo nao encontrado.\n");
         fclose(arquivo_assentos);
         return;
     }
@@ -76,19 +76,19 @@ void realizar_reserva(int codigo_voo, int numero_assento, int codigo_passageiro)
 
     // Verifica se o voo e assento estão disponíveis
     if (numero_assento <= 0 || numero_assento > MAX_ASSENTOS) {
-        printf("Número de assento inválido.\n");
+        printf("Número de assento invalido.\n");
         fclose(arquivo_reservas);
         return;
     }
 
     if (voosAssentos[codigo_voo][numero_assento - 1].status == -1) { // -1 = Não cadastrado
-        printf("Assento não cadastrado.\n");
+        printf("Assento nao cadastrado.\n");
         fclose(arquivo_reservas);
         return;
     }
 
     if (voosAssentos[codigo_voo][numero_assento - 1].status == 1) {
-        printf("Assento já reservado.\n");
+        printf("Assento ja reservado.\n");
         fclose(arquivo_reservas);
         return;
     }
@@ -110,7 +110,7 @@ void realizar_reserva(int codigo_voo, int numero_assento, int codigo_passageiro)
 
     // Exibe a quantidade de assentos disponíveis
     int assentos_disponiveis = quantidade_assentos_disponiveis(codigo_voo);
-    printf("Assentos disponíveis para o voo %d: %d\n", codigo_voo, assentos_disponiveis);
+    printf("Assentos disponiveis para o voo %d: %d\n", codigo_voo, assentos_disponiveis);
 
     fclose(arquivo_reservas);
 }
@@ -131,7 +131,7 @@ void cancelar_reserva(int codigo_voo, int numero_assento) {
     }
 
     if (!encontrou_assento) {
-        printf("Assento não encontrado.\n");
+        printf("Assento nao encontrado.\n");
         return;
     }
 
@@ -156,7 +156,7 @@ void gerenciaAssentosMain() {
         printf("2. Reservar Assento\n");
         printf("3. Cancelar Reserva\n");
         printf("4. Sair\n");
-        printf("Escolha uma opção: ");
+        printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
@@ -191,7 +191,7 @@ void gerenciaAssentosMain() {
                 printf("Saindo...\n");
                 return;
             default:
-                printf("Opção inválida!\n");
+                printf("Opcao invalida!\n");
                 break;
         }
     } while (opcao != 4);

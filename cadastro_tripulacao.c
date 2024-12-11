@@ -53,6 +53,7 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
             printf("Digite o codigo da pessoa %d: ", i + 1);
             scanf("%d", &t[i].codigo);
             getchar();
+            printf("\n");
 
             if (t[i].codigo < 0)
             {
@@ -88,7 +89,7 @@ void cadastro_tripulacao(int codigo, const char *nome, const char *telefone, con
         //     break;
         // }
 
-        printf("Digite o cargo da pessoa %d: (Piloto, Copiloto ou Comissario)", i + 1);
+        printf("Digite o cargo da pessoa %d, Piloto, Copiloto ou Comissario:", i + 1);
         fgets(t[i].cargo, 10, stdin);
 
         t[i].cargo[strcspn(t[i].cargo, "\n")] = '\0';

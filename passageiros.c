@@ -25,7 +25,7 @@ void cadastrarPassageiro(Passageiro *passageiro, int *codigoAtual)
     printf("Informe o telefone do passageiro: ");
     scanf(" %[^\n]", passageiro->telefone);
 
-    printf("O passageiro participa do programa de fidelidade? (1-Sim, 0-N�o): ");
+    printf("O passageiro participa do programa de fidelidade? (1-Sim, 0-Nao): ");
     scanf("%d", &passageiro->fidelidade);
 
     passageiro->pontosFidelidade = 0; // Inicializa com zero pontos de fidelidade
@@ -61,12 +61,14 @@ int verificarUsuario(int *codigoUsuario)
         // Verifica o username e a senha com dados armazenados
         if (strcmp(username, "admin") == 0 && strcmp(senha, "1234") == 0)
         {
+            printf("-----------------------------------\n");
             printf("Login de administrador bem sucedido!\n");
+            printf("-----------------------------------\n");
             return 1;
         }
         else
         {
-            printf("Usuario ou senha incorretos!\n");
+            printf("\nUsuario ou senha incorretos!\n");
             return -1;
         }
     }
@@ -78,7 +80,7 @@ int verificarUsuario(int *codigoUsuario)
 
         if (possuiCadastro)
         {
-            printf("Informe o codigo do passageiro: ");
+            printf("\nInforme o codigo do passageiro: ");
             scanf("%d", codigoUsuario);
             return 2;
         }
@@ -239,7 +241,7 @@ void buscarEEditarPassageiro(Passageiro *passageiros, int totalPassageiros, int 
 //         {
 //             break;
 //         }
-        
+
 //     }
 
 //     return 0;
