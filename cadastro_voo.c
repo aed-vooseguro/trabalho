@@ -53,8 +53,8 @@ void cadastro_voo(int codigo_voo, char data, char hora, char origem, char destin
       }
    }while (vooJaExiste == 1);
 
-   
-     
+
+
 
       //  if (v.codigo_voo == 0){
       //   printf("Voce saiu do sistema");

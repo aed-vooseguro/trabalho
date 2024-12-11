@@ -90,7 +90,9 @@ int main() {
         else if (tipoUsuario == 0)
         {
             cadastrarPassageiro(&passageiros[totalPassageiros++], &codigoAtual);
+            printf("-----------------------------------\n");
             printf("Bem-vindo! Voce agora pode acessar as funcionalidades do sistema.\n");
+            printf("-----------------------------------\n");
         }
         else if (tipoUsuario == 3)
         {

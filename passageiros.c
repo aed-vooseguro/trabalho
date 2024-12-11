@@ -110,7 +110,9 @@ void atualizarPontosFidelidade(Passageiro *passageiro)
         passageiro->pontosFidelidade += 10;
         fwrite(passageiro, sizeof(Passageiro), 1, arquivo);
         fclose(arquivo);
+        printf("-----------------------------------\n");
         printf("Pontos de fidelidade atualizados. Total de pontos: %d\n", passageiro->pontosFidelidade);
+        printf("-----------------------------------\n");
 
     }
     else
